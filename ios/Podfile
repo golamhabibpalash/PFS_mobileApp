@@ -1,0 +1,41 @@
+platform :ios, '13.4'
+
+require_relative '../node_modules/react-native/scripts/react_native_pods'
+
+# Disable New Architecture (Fabric & Codegen)
+ENV['RCT_NEW_ARCH_ENABLED'] = '0'
+ENV['RCT_NO_CODEGEN'] = '1'
+ENV['DISABLE_NEW_ARCH'] = '1'
+
+
+target 'BLPfs' do
+  config = use_native_modules!
+
+  use_react_native!(
+    :path => config[:reactNativePath],
+    :hermes_enabled => false,   # Enable Hermes
+    :fabric_enabled => false,  # Disable Fabric
+    :new_arch_enabled => false,  # Explicitly disable New Arch
+    :app_path => "#{Pod::Config.instance.installation_root}/.."
+  )
+  
+
+  target 'BLPfsTests' do
+    inherit! :complete
+  end
+
+  post_install do |installer|
+    react_native_post_install(
+      installer,
+      config[:reactNativePath],
+      :mac_catalyst_enabled => false
+    )
+
+    # Force iOS deployment target (fixes Xcode 15 errors)
+    installer.pods_project.targets.each do |target|
+      target.build_configurations.each do |config|
+        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '13.4'
+      end
+    end
+  end
+end
