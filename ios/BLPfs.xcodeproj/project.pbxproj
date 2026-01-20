@@ -11,9 +11,9 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		62FABBF150803A0EB4EE4AAA /* libPods-BLPfs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D51AFEDBF6B9F11FE19853ED /* libPods-BLPfs.a */; };
+		4420CF0AD25E01227165CE5A /* libPods-BLPfs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 32DF0AF859CBEF33BDBED0F9 /* libPods-BLPfs.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		86226C5C9DBADD0DB37A0EA8 /* libPods-BLPfs-BLPfsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E9B464BB794E5CBD3BDFC502 /* libPods-BLPfs-BLPfsTests.a */; };
+		F8B9832225E51EAF7B3CD80C /* libPods-BLPfs-BLPfsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FF1BEFEC465DCD2CE45541E /* libPods-BLPfs-BLPfsTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,20 +30,20 @@
 		00E356EE1AD99517003FC87E /* BLPfsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BLPfsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* BLPfsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLPfsTests.m; sourceTree = "<group>"; };
-		0D8EBB396598CEC917D82261 /* Pods-BLPfs-BLPfsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BLPfs-BLPfsTests.release.xcconfig"; path = "Target Support Files/Pods-BLPfs-BLPfsTests/Pods-BLPfs-BLPfsTests.release.xcconfig"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* BLPfs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BLPfs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = BLPfs/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = BLPfs/AppDelegate.mm; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = BLPfs/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = BLPfs/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = BLPfs/main.m; sourceTree = "<group>"; };
-		3E260A644B07386253CF484A /* Pods-BLPfs-BLPfsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BLPfs-BLPfsTests.debug.xcconfig"; path = "Target Support Files/Pods-BLPfs-BLPfsTests/Pods-BLPfs-BLPfsTests.debug.xcconfig"; sourceTree = "<group>"; };
-		78A9CFA2FCFEB7849593E03D /* Pods-BLPfs.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BLPfs.debug.xcconfig"; path = "Target Support Files/Pods-BLPfs/Pods-BLPfs.debug.xcconfig"; sourceTree = "<group>"; };
+		1FF1BEFEC465DCD2CE45541E /* libPods-BLPfs-BLPfsTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BLPfs-BLPfsTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		32DF0AF859CBEF33BDBED0F9 /* libPods-BLPfs.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BLPfs.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = BLPfs/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		D51AFEDBF6B9F11FE19853ED /* libPods-BLPfs.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BLPfs.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		DA9D5A476BC6700185D8E3EB /* Pods-BLPfs.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BLPfs.release.xcconfig"; path = "Target Support Files/Pods-BLPfs/Pods-BLPfs.release.xcconfig"; sourceTree = "<group>"; };
-		E9B464BB794E5CBD3BDFC502 /* libPods-BLPfs-BLPfsTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BLPfs-BLPfsTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		891C5EB6D547FA2CBB20AAE4 /* Pods-BLPfs.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BLPfs.release.xcconfig"; path = "Target Support Files/Pods-BLPfs/Pods-BLPfs.release.xcconfig"; sourceTree = "<group>"; };
+		BF51D98F2483C0FFEDB0C1FA /* Pods-BLPfs-BLPfsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BLPfs-BLPfsTests.release.xcconfig"; path = "Target Support Files/Pods-BLPfs-BLPfsTests/Pods-BLPfs-BLPfsTests.release.xcconfig"; sourceTree = "<group>"; };
+		BFCF3C000F910F16A6259BB1 /* Pods-BLPfs-BLPfsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BLPfs-BLPfsTests.debug.xcconfig"; path = "Target Support Files/Pods-BLPfs-BLPfsTests/Pods-BLPfs-BLPfsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		F5747CB64776CF26B0EE5E8C /* Pods-BLPfs.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BLPfs.debug.xcconfig"; path = "Target Support Files/Pods-BLPfs/Pods-BLPfs.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,7 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				86226C5C9DBADD0DB37A0EA8 /* libPods-BLPfs-BLPfsTests.a in Frameworks */,
+				F8B9832225E51EAF7B3CD80C /* libPods-BLPfs-BLPfsTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,7 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				62FABBF150803A0EB4EE4AAA /* libPods-BLPfs.a in Frameworks */,
+				4420CF0AD25E01227165CE5A /* libPods-BLPfs.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,8 +100,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				D51AFEDBF6B9F11FE19853ED /* libPods-BLPfs.a */,
-				E9B464BB794E5CBD3BDFC502 /* libPods-BLPfs-BLPfsTests.a */,
+				32DF0AF859CBEF33BDBED0F9 /* libPods-BLPfs.a */,
+				1FF1BEFEC465DCD2CE45541E /* libPods-BLPfs-BLPfsTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -140,10 +140,10 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				78A9CFA2FCFEB7849593E03D /* Pods-BLPfs.debug.xcconfig */,
-				DA9D5A476BC6700185D8E3EB /* Pods-BLPfs.release.xcconfig */,
-				3E260A644B07386253CF484A /* Pods-BLPfs-BLPfsTests.debug.xcconfig */,
-				0D8EBB396598CEC917D82261 /* Pods-BLPfs-BLPfsTests.release.xcconfig */,
+				F5747CB64776CF26B0EE5E8C /* Pods-BLPfs.debug.xcconfig */,
+				891C5EB6D547FA2CBB20AAE4 /* Pods-BLPfs.release.xcconfig */,
+				BFCF3C000F910F16A6259BB1 /* Pods-BLPfs-BLPfsTests.debug.xcconfig */,
+				BF51D98F2483C0FFEDB0C1FA /* Pods-BLPfs-BLPfsTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -155,11 +155,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "BLPfsTests" */;
 			buildPhases = (
-				01B0F21C30CA9F8A6450BA32 /* [CP] Check Pods Manifest.lock */,
+				69D40A1380D833C60461D85C /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				DF11E30DB5DD8B7EA07BC732 /* [CP] Copy Pods Resources */,
+				3D0BC7E73500B0AE57691CEF /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -175,12 +175,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "BLPfs" */;
 			buildPhases = (
-				0C8E45EA9FEBC895F8D86146 /* [CP] Check Pods Manifest.lock */,
+				B014649F2F41CFDD908AEE56 /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				101BFE9D90D28946A0E589B3 /* [CP] Copy Pods Resources */,
+				DCCFCC3A1F2A88657742FB59 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -263,7 +263,24 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
-		01B0F21C30CA9F8A6450BA32 /* [CP] Check Pods Manifest.lock */ = {
+		3D0BC7E73500B0AE57691CEF /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BLPfs-BLPfsTests/Pods-BLPfs-BLPfsTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BLPfs-BLPfsTests/Pods-BLPfs-BLPfsTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BLPfs-BLPfsTests/Pods-BLPfs-BLPfsTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		69D40A1380D833C60461D85C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -285,7 +302,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		0C8E45EA9FEBC895F8D86146 /* [CP] Check Pods Manifest.lock */ = {
+		B014649F2F41CFDD908AEE56 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -307,7 +324,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		101BFE9D90D28946A0E589B3 /* [CP] Copy Pods Resources */ = {
+		DCCFCC3A1F2A88657742FB59 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -322,23 +339,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BLPfs/Pods-BLPfs-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		DF11E30DB5DD8B7EA07BC732 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BLPfs-BLPfsTests/Pods-BLPfs-BLPfsTests-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BLPfs-BLPfsTests/Pods-BLPfs-BLPfsTests-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BLPfs-BLPfsTests/Pods-BLPfs-BLPfsTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -374,7 +374,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3E260A644B07386253CF484A /* Pods-BLPfs-BLPfsTests.debug.xcconfig */;
+			baseConfigurationReference = BFCF3C000F910F16A6259BB1 /* Pods-BLPfs-BLPfsTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -401,7 +401,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0D8EBB396598CEC917D82261 /* Pods-BLPfs-BLPfsTests.release.xcconfig */;
+			baseConfigurationReference = BF51D98F2483C0FFEDB0C1FA /* Pods-BLPfs-BLPfsTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -425,7 +425,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 78A9CFA2FCFEB7849593E03D /* Pods-BLPfs.debug.xcconfig */;
+			baseConfigurationReference = F5747CB64776CF26B0EE5E8C /* Pods-BLPfs.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -456,7 +456,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DA9D5A476BC6700185D8E3EB /* Pods-BLPfs.release.xcconfig */;
+			baseConfigurationReference = 891C5EB6D547FA2CBB20AAE4 /* Pods-BLPfs.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

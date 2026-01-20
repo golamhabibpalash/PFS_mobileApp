@@ -1043,7 +1043,7 @@ PODS:
     - React-perflogger (= 0.73.6)
   - ReactNativeGetLocation (5.0.0):
     - React-Core
-  - rn-fetch-blob (0.13.0-beta.2):
+  - rn-fetch-blob (0.12.0):
     - React-Core
   - RNCAsyncStorage (1.24.0):
     - React-Core
@@ -1068,7 +1068,7 @@ PODS:
     - React-RCTImage
   - RNShare (10.2.1):
     - React-Core
-  - RNSVG (15.15.0):
+  - RNSVG (13.14.1):
     - React-Core
   - RNVectorIcons (10.3.0):
     - glog
@@ -1353,7 +1353,7 @@ SPEC CHECKSUMS:
   React-utils: 288c9cb9a73bb150c273c84df7c2f8546f28e23f
   ReactCommon: 53a7c32268a2ec0779faa89d7af0392f4d8e8dca
   ReactNativeGetLocation: 3a73f09e3da5badb66421ec310404c57632d7ccf
-  rn-fetch-blob: 13834702ae4c003d643eaf5cca9857a4b50b6a7e
+  rn-fetch-blob: 25612b6d6f6e980c6f17ed98ba2f58f5696a51ca
   RNCAsyncStorage: b6410dead2732b5c72a7fdb1ecb5651bbcf4674b
   RNCMaskedView: 4c5ee1c8667d56077246cc6d1977f77393923560
   RNCPicker: 7de564dce1f90b53e386a24001aafc3578233dfe
@@ -1363,7 +1363,7 @@ SPEC CHECKSUMS:
   RNPermissions: 4f7b81b0d457c8ec4e892cc36ef2376734a4b22c
   RNScreens: 3ce54903891fd6281865ad3e7cfe4c2bb438c70c
   RNShare: 694e19d7f74ac4c04de3a8af0649e9ccc03bd8b1
-  RNSVG: 5f2c760142c6d59f6ed0e93364fe2dea76e7a7ac
+  RNSVG: ae50dd253f44447b32d0f5a3657a97859f289891
   RNVectorIcons: 24c506ef3aab67787a85607b8d4a312ce8f6f3b0
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   Yoga: 805bf71192903b20fc14babe48080582fee65a80
