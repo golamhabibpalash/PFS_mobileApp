@@ -1,6 +1,6 @@
 {
   "name": "BLPfs",
   "displayName": "BLPfs",
-  "apiBaseURL": "https://pfsdr.banglalink.net/",
-  "apiBaseURLDev": "https://pfsdr.banglalink.net/"
+  "apiBaseURL": "https://pfsuat.banglalink.net/",
+  "apiBaseURLDev": "https://pfsuat.banglalink.net/"
 }
