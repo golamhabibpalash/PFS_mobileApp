@@ -22,6 +22,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import DynamicIcon from '../Components/DynamicIcon';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import RNOtpVerify from 'react-native-otp-verify';
+import packageJson from '../package.json';
 
 const {height: screenHeight} = Dimensions.get('window');
 
@@ -34,7 +35,34 @@ const LoginScreen = ({navigation}) => {
   const [loginLoading, setLoginLoading] = useState(false);
   const [disabledLoign, setDisabledLogin] = useState(false);
   const [disabledOtp, setDisabledOtp] = useState(false);
+  const [tapCount, setTapCount] = useState(0);
   const authDispatch = useAuthDispatch();
+
+
+  const handleSecretTap = () => {
+        const newCount = tapCount + 1;
+        setTapCount(newCount);
+
+        if (newCount === 5) {
+          const info = `
+      App Information:
+      ==================
+      Version: ${packageJson.version}
+      React: ${packageJson.dependencies.react}
+      React Native: ${packageJson.dependencies['react-native']}
+      API URL: ${baseUrl}
+          `;
+          alert(info);
+          setTapCount(0);
+        }
+
+        // Reset counter after 3 seconds of no taps
+        setTimeout(() => {
+          setTapCount(0);
+        }, 3000);
+      };
+
+
 
   const validation = () => {
     let validationMsg = '';
@@ -160,11 +188,17 @@ const LoginScreen = ({navigation}) => {
           end={{x: 1, y: 1}}>
           <View style={styles.logoContainer}>
             <View style={styles.logoWrapper}>
-              <Image
-                style={styles.logo}
-                source={require('../Asset/PFS_LOGO.png')}
-                resizeMode="contain"
-              />
+              <TouchableOpacity 
+                style={styles.logoWrapper}
+                onPress={handleSecretTap}
+                activeOpacity={1} // Keeps it invisible that it's tappable
+              >
+                <Image
+                  style={styles.logo}
+                  source={require('../Asset/PFS_LOGO.png')}
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
             </View>
           </View>
           <View style={styles.content}>

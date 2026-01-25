@@ -7,12 +7,12 @@ import Toast from 'react-native-toast-message'
 import SubmitButton from '../../Components/SubmitButton'
 import CafeNonRegAvailLunch from './CafeNonRegAvailLunch';
 
-const baseCafeUrl = `${appConfig.apiBaseURL}PFS/api/Cafeteria`
+const baseCafeUrl = `${appConfig.apiBaseURL}PFS/api/Cafeteria`;
 
-const CafeRegAvailLunch = ({ onOk }) => {
+const CafeRegAvailLunch = ({ onOk, vendorName }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>You have registration today for spice. Do you want to consume it now?</Text>
+      <Text style={styles.heading}>You have registration today for {vendorName}. Do you want to consume it now?</Text>
       <SubmitButton
           title='Confirm'
           disabled={false}
@@ -24,6 +24,7 @@ const CafeRegAvailLunch = ({ onOk }) => {
 const CafeteriaAvailLunch = () => {
   const [showConsumptionToday, setShowConsumptionToday] = useState(false);
   const [showNonRegisteredConsumptionToday, setShowNonRegisteredConsumptionToday] = useState(false);
+  const [vendorName, setVendorName] = useState('');
   const navigation = useNavigation()
 
   useEffect(() => {
@@ -33,10 +34,12 @@ const CafeteriaAvailLunch = () => {
   const registrationCheckToday = async () => {
     try {
       const response = await axios.get(`${baseCafeUrl}/HaveRegistrationToday`);
+    
       if (response.data.IsSuccess) {
+        setVendorName(response.data.VendorName);
         setShowConsumptionToday(true);
       } else {
-        
+
         setShowNonRegisteredConsumptionToday(true);
       }
     } catch (error) {
@@ -48,6 +51,7 @@ const CafeteriaAvailLunch = () => {
     try {
       const response = await axios.get(`${baseCafeUrl}/RegistrationConsumption`);
       if (response.data.IsSuccess) {
+        setVendorName(response.data.VendorName);
         var barcodeUrl = response.data.BarcodeUrl;
         Linking.openURL(barcodeUrl);
       } else {
@@ -71,7 +75,7 @@ const CafeteriaAvailLunch = () => {
     { showConsumptionToday == false && showNonRegisteredConsumptionToday == true ? 
     <CafeNonRegAvailLunch /> :
       showConsumptionToday == true && showNonRegisteredConsumptionToday == false ?  
-      <CafeRegAvailLunch onOk={handleConsumptionTodayOk} /> : 
+      <CafeRegAvailLunch vendorName={vendorName} onOk={handleConsumptionTodayOk} /> : 
     <Text style={styles.heading}>Loading .......</Text>
     }
     </>
