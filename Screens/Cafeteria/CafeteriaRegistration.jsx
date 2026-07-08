@@ -9,7 +9,7 @@ import {
   ScrollView,
   TextInput,
 } from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {format} from 'date-fns';
 import SubmitButton from '../../Components/SubmitButton';
 import appConfig from '../../app.json';
@@ -90,7 +90,7 @@ const CafeRegistration = () => {
     handleInputChange(section, value);
   };
 
-  const onChangeDate = (event, selectedDate) => {
+  const onConfirmDate = selectedDate => {
     setDateOpen(false);
     const date = format(new Date(selectedDate), 'dd MMM yyyy');
     const formatDate = format(new Date(selectedDate), 'yyyy-MM-dd');
@@ -102,6 +102,11 @@ const CafeRegistration = () => {
       handleInputChange('EndDate', formatDate);
       setEndDate(date);
     }
+    setDatetype('0');
+  };
+
+  const onCancelDate = () => {
+    setDateOpen(false);
     setDatetype('0');
   };
 
@@ -368,18 +373,16 @@ const CafeRegistration = () => {
             </View>
           </View>
         )}
-        <View>
-          {dateOpen && (
-            <DateTimePicker
-              testID="dateTimePicker"
-              minimumDate={new Date(NextWorkingDate)}
-              maximumDate={maxDate}
-              value={new Date(NextWorkingDate)}
-              mode={'date'}
-              onChange={onChangeDate}
-            />
-          )}
-        </View>
+        <DateTimePickerModal
+          testID="dateTimePicker"
+          isVisible={dateOpen}
+          mode="date"
+          date={new Date(NextWorkingDate)}
+          minimumDate={new Date(NextWorkingDate)}
+          maximumDate={maxDate}
+          onConfirm={onConfirmDate}
+          onCancel={onCancelDate}
+        />
         {/* <TouchableOpacity
           onPress={handleSubmitForm}
           style={{backgroundColor: 'red', padding: 10}}>
