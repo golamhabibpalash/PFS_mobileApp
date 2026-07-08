@@ -10,8 +10,8 @@ set -e
 
 # ----- CONFIG -----
 JSON_FILE="app.json"
-LIVE_API_URL="https://pfs.banglalink.net/"
-UAT_API_URL="https://pfsuat.banglalink.net/"
+LIVE_API_URL=$(jq -r '.apiBaseURL' "$JSON_FILE")
+UAT_API_URL=$(jq -r '.apiBaseURLDev' "$JSON_FILE")
 ANDROID_DIR="android"
 ASSETS_DIR="$ANDROID_DIR/app/src/main/assets"
 RES_DIR="$ANDROID_DIR/app/src/main/res"

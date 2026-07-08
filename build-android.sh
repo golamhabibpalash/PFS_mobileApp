@@ -21,8 +21,8 @@ if ! command -v jq &> /dev/null; then
 fi
 
 JSON_FILE="app.json"
-LIVE_API_URL="https://pfsdev.banglalink.net/"
-UAT_API_URL="https://pfsdev.banglalink.net/"
+LIVE_API_URL=$(jq -r '.apiBaseURL' "$JSON_FILE")
+UAT_API_URL=$(jq -r '.apiBaseURLDev' "$JSON_FILE")
 
 # Check if the JSON file exists
 if [ ! -f "$JSON_FILE" ]; then

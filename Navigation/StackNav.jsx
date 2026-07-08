@@ -43,6 +43,11 @@ import UserProfile from '../Screens/UserProfile/UserProfile';
 import WelcomeScreen from '../Screens/welcome/Welcome';
 import FAQScreen from '../Screens/welcome/FAQ';
 import OnboardingScreen from '../Screens/welcome/Onboard';
+import {SessionWatcher} from '../Services/SessionProvider';
+import {
+  SESSION_TIMEOUT_MS,
+  SESSION_START_TIME_KEY,
+} from '../Services/SessionManager';
 
 const StackNav = () => {
   const Stack = createNativeStackNavigator();
@@ -54,6 +59,20 @@ const StackNav = () => {
       try {
         const loggedIn = await AsyncStorage.getItem('loggedIn');
         if (loggedIn) {
+          const sessionStartTime = await AsyncStorage.getItem(
+            SESSION_START_TIME_KEY,
+          );
+          const isExpired =
+            !sessionStartTime ||
+            Date.now() - Number(sessionStartTime) >= SESSION_TIMEOUT_MS;
+          if (isExpired) {
+            await AsyncStorage.multiRemove([
+              'loggedIn',
+              'loggedInData',
+              SESSION_START_TIME_KEY,
+            ]);
+            return;
+          }
           const loggedInData = await AsyncStorage.getItem('loggedInData');
           authDispatch({
             type: 'LOGIN_SUCCESS',
@@ -82,9 +101,17 @@ const StackNav = () => {
         })}
         initialRouteName={'SplashScreen'}>
         <Stack.Screen name="SplashScreen" component={SplashScreen} />
-        <Stack.Screen name="OnboardingScreen" component={OnboardingScreen} options={{headerShown:false}} />
+        <Stack.Screen
+          name="OnboardingScreen"
+          component={OnboardingScreen}
+          options={{headerShown: false}}
+        />
         <Stack.Screen name="FAQScreen" component={FAQScreen} />
-        <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} options={{headerShown:false}} />
+        <Stack.Screen
+          name="WelcomeScreen"
+          component={WelcomeScreen}
+          options={{headerShown: false}}
+        />
         <Stack.Screen
           name="Login"
           component={LoginScreen}
@@ -246,6 +273,7 @@ const StackNav = () => {
           component={TermsAndConditionsScreen}
         />
       </Stack.Navigator>
+      <SessionWatcher />
     </NavigationContainer>
   );
 };

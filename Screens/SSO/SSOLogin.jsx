@@ -47,6 +47,10 @@ const SSOLogin = () => {
             'loggedInData',
             JSON.stringify(response.data),
           );
+          await AsyncStorage.setItem(
+            'sessionStartTime',
+            String(Date.now()),
+          );
           navigation.navigate('Home', {title: 'Home'});
         } else {
           Toast.show({

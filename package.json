@@ -1,6 +1,6 @@
 {
   "name": "blpfs",
-  "version": "0.5.240632",
+  "version": "0.5.260713",
   "private": true,
   "scripts": {
     "android": "react-native run-android",

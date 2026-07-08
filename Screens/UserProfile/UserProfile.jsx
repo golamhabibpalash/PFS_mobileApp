@@ -111,8 +111,11 @@ const UserProfile = () => {
   ];
   const handleSignout = async () => {
     try {
-      await AsyncStorage.removeItem('loggedIn');
-      await AsyncStorage.removeItem('loggedInData');
+      await AsyncStorage.multiRemove([
+        'loggedIn',
+        'loggedInData',
+        'sessionStartTime',
+      ]);
       await axios.get(`${baseUrl}${adfsLogoutUrl}`);
     } catch (error) {
       console.log(error);

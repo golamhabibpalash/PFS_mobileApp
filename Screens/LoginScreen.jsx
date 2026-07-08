@@ -23,6 +23,7 @@ import DynamicIcon from '../Components/DynamicIcon';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import RNOtpVerify from 'react-native-otp-verify';
 import packageJson from '../package.json';
+import {SESSION_TIMEOUT_MS} from '../Services/SessionManager';
 
 const {height: screenHeight} = Dimensions.get('window');
 
@@ -44,6 +45,7 @@ const LoginScreen = ({navigation}) => {
         setTapCount(newCount);
 
         if (newCount === 5) {
+          const sessionMinutes = SESSION_TIMEOUT_MS / 60 / 1000;
           const info = `
       App Information:
       ==================
@@ -51,6 +53,7 @@ const LoginScreen = ({navigation}) => {
       React: ${packageJson.dependencies.react}
       React Native: ${packageJson.dependencies['react-native']}
       API URL: ${baseUrl}
+      Session Timeout: ${sessionMinutes} minutes
           `;
           alert(info);
           setTapCount(0);
@@ -92,6 +95,10 @@ const LoginScreen = ({navigation}) => {
             'loggedInData',
             JSON.stringify(response.data),
           );
+          await AsyncStorage.setItem(
+            'sessionStartTime',
+            String(Date.now()),
+          );
           navigation.navigate('Home', {title: 'Home'});
 
           setUsername('');
@@ -111,10 +118,14 @@ const LoginScreen = ({navigation}) => {
         });
       }
     } catch (error) {
+      const errorMessage =
+        error.response?.data?.Message ||
+        error.message ||
+        'Please check your data connectivity & try again.';
       Toast.show({
         type: 'error',
         text1: 'Login Error!',
-        text2: 'Please Check your data connectivity & try again.',
+        text2: errorMessage,
       });
     } finally {
       setLoginLoading(false);

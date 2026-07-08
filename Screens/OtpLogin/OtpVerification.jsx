@@ -233,6 +233,10 @@ const OtpVerification = function (props) {
             'loggedInData',
             JSON.stringify(res.data),
           );
+          await AsyncStorage.setItem(
+            'sessionStartTime',
+            String(Date.now()),
+          );
           navigation.navigate('Home');
         } else {
           throw new Error(res.data.Message || 'Login failed');
