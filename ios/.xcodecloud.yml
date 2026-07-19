@@ -1,4 +1,0 @@
-version: 1
-scripts:
-  post_clone: ci_scripts/ci_post_clone.sh
-  pre_xcodebuild: ci_scripts/ci_pre_xcodebuild.sh
