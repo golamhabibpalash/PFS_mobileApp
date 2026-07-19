@@ -403,6 +403,10 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = net.banglalink.pfs.tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BLPfs.app/BLPfs";
 			};
 			name = Debug;
@@ -427,6 +431,10 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = net.banglalink.pfs.tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BLPfs.app/BLPfs";
 			};
 			name = Release;
