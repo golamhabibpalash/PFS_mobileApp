@@ -1,12 +1,18 @@
 #!/bin/bash
 
-# Install CocoaPods via Bundler before Xcode Cloud build
-cd "$CI_WORKSPACE"
+set -e
 
-if ! command -v bundle &> /dev/null; then
-    gem install bundler --no-document
+echo "=== ci_pre_xcodebuild.sh started ==="
+echo "Checking Pods are installed..."
+
+if [ ! -f "$CI_WORKSPACE/ios/Pods/Manifest.lock" ]; then
+    echo "Pods not found — running pod install..."
+    if ! command -v pod &> /dev/null; then
+        echo "Installing CocoaPods..."
+        gem install cocoapods --no-document -q
+    fi
+    cd "$CI_WORKSPACE/ios"
+    pod install
 fi
 
-bundle install
-cd ios
-bundle exec pod install
+echo "=== ci_pre_xcodebuild.sh completed ==="
