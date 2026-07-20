@@ -18,6 +18,10 @@ if ! command -v node &> /dev/null; then
     nvm use 18
 fi
 
+# Export NODE_BINARY for Xcode build phases (React-rncore codegen, bundle, etc.)
+export NODE_BINARY=$(command -v node)
+echo "NODE_BINARY set to: $NODE_BINARY"
+
 if [ ! -f "$REPO_PATH/ios/Pods/Manifest.lock" ]; then
     echo "Pods not found — installing..."
     # Ensure npm deps are installed (required for Podfile to load react_native_pods)

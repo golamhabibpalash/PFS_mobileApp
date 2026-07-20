@@ -18,6 +18,10 @@ if ! command -v node &> /dev/null; then
     nvm use 18
 fi
 
+# Export NODE_BINARY for any subsequent build phases or scripts
+export NODE_BINARY=$(command -v node)
+echo "NODE_BINARY set to: $NODE_BINARY"
+
 # Install npm dependencies first (required for Podfile to load react_native_pods)
 echo "Installing npm dependencies..."
 cd "$REPO_PATH"
