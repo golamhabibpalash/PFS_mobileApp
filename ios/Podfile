@@ -28,7 +28,7 @@ target 'BLPfs' do
     react_native_post_install(
       installer,
       config[:reactNativePath],
-      :mac_catalyst_enabled => false
+      :mac_catalyst_enabled => true
     )
 
     # Force iOS deployment target and disable Swift compatibility (Xcode 26 drops old Swift libs)
