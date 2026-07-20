@@ -14,6 +14,7 @@
 		58D1D43624E9E066EB456F5C /* libPods-BLPfs-BLPfsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BF5DCA8B710CCF0D6D38775 /* libPods-BLPfs-BLPfsTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		9DCB14C5B36A2B5536E63C96 /* libPods-BLPfs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1757B2D5F1E80422C83B5760 /* libPods-BLPfs.a */; };
+		F76F4BC5CDA02CDBBA3B357D /* SwiftCompatibilityStubs.c in Sources */ = {isa = PBXBuildFile; fileRef = ACD21756A8E4B29864F022C0 /* SwiftCompatibilityStubs.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +44,7 @@
 		7468A19E72CAD54DAFF4101D /* Pods-BLPfs-BLPfsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BLPfs-BLPfsTests.debug.xcconfig"; path = "Target Support Files/Pods-BLPfs-BLPfsTests/Pods-BLPfs-BLPfsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = BLPfs/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A5E01D45DAAF4ADF1BE33448 /* Pods-BLPfs-BLPfsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BLPfs-BLPfsTests.release.xcconfig"; path = "Target Support Files/Pods-BLPfs-BLPfsTests/Pods-BLPfs-BLPfsTests.release.xcconfig"; sourceTree = "<group>"; };
+		ACD21756A8E4B29864F022C0 /* SwiftCompatibilityStubs.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = SwiftCompatibilityStubs.c; path = BLPfs/SwiftCompatibilityStubs.c; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -92,6 +94,7 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				ACD21756A8E4B29864F022C0 /* SwiftCompatibilityStubs.c */,
 			);
 			name = BLPfs;
 			sourceTree = "<group>";
@@ -358,6 +361,7 @@
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				F76F4BC5CDA02CDBBA3B357D /* SwiftCompatibilityStubs.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
