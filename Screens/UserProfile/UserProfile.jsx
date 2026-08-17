@@ -19,6 +19,7 @@ import {blBgColors, blFontColor, blFontSize} from '../../App/Accessibilities';
 import DynamicIcon from '../../Components/DynamicIcon';
 import {useNavigation} from '@react-navigation/native';
 import {useAuthDispatch} from '../../Navigation/AuthContext';
+import packageJson from '../../package.json';
 import HomeHeaderView from '../Home/HomeComponent/HomeHeaderView';
 import axios from 'axios';
 import appConfig from '../../app.json';
@@ -141,45 +142,42 @@ const UserProfile = () => {
     }
   };
   return (
-    <SafeAreaView style={{backgroundColor:blBgColors.defaultBackground}} >
-      <StatusBar 
-        barStyle="dark-content"
-        
-      />
-    <ScrollView>
-      <HomeHeaderView title={'Profile'} />
-      <View style={styles.container}>
-        <View style={styles.profileTop}>
-          <View style={styles.profileImage}>
-            <ImageComponent byteArray={employeeData?.ThumbnailPhoto} />
+    <SafeAreaView style={{backgroundColor: blBgColors.defaultBackground}}>
+      <StatusBar barStyle="dark-content" />
+      <ScrollView>
+        <HomeHeaderView title={'Profile'} />
+        <View style={styles.container}>
+          <View style={styles.profileTop}>
+            <View style={styles.profileImage}>
+              <ImageComponent byteArray={employeeData?.ThumbnailPhoto} />
+            </View>
+            <Text style={styles.profileName}>{employeeData?.EmployeeName}</Text>
+            <Text style={styles.profileEmail}>{employeeData?.Email}</Text>
           </View>
-          <Text style={styles.profileName}>{employeeData?.EmployeeName}</Text>
-          <Text style={styles.profileEmail}>{employeeData?.Email}</Text>
-        </View>
-        <View style={styles.profileMid}>
-          <View style={styles.portionTitle}>
-            <Text style={styles.portionTitleText}>Employee Information</Text>
-            <View style={styles.Info}>
-              {employeelInfo.map((item, index) => (
-                <View style={styles.infoItem} key={index}>
-                  <DynamicIcon
-                    iconName={item.iconName}
-                    iconType={item.iconType}
-                    iconSize={24}
-                  />
-                  <Text style={styles.infoTitle}>{item?.infoTitle}</Text>
-                  <Text style={{paddingHorizontal: 10}}>:</Text>
-                  <Text style={{flex: 1}}>{item?.infoData}</Text>
-                </View>
-              ))}
+          <View style={styles.profileMid}>
+            <View style={styles.portionTitle}>
+              <Text style={styles.portionTitleText}>Employee Information</Text>
+              <View style={styles.Info}>
+                {employeelInfo.map((item, index) => (
+                  <View style={styles.infoItem} key={index}>
+                    <DynamicIcon
+                      iconName={item.iconName}
+                      iconType={item.iconType}
+                      iconSize={24}
+                    />
+                    <Text style={styles.infoTitle}>{item?.infoTitle}</Text>
+                    <Text style={{paddingHorizontal: 10}}>:</Text>
+                    <Text style={{flex: 1}}>{item?.infoData}</Text>
+                  </View>
+                ))}
+              </View>
             </View>
           </View>
-        </View>
-        <View style={styles.profileEnd}>
-          <View style={styles.portionTitle}>
-            <Text style={styles.portionTitleText}>General Information</Text>
-            <View style={styles.Info}>
-              {/* {generalInfo.map((item, index) => (
+          <View style={styles.profileEnd}>
+            <View style={styles.portionTitle}>
+              <Text style={styles.portionTitleText}>General Information</Text>
+              <View style={styles.Info}>
+                {/* {generalInfo.map((item, index) => (
                 <TouchableOpacity
                   onPress={() =>
                     handleGenInfoItem({
@@ -204,43 +202,72 @@ const UserProfile = () => {
                   </View>
                 </TouchableOpacity>
               ))} */}
-              <TouchableOpacity onPress={shareApp} style={styles.infoItem}>
+                <TouchableOpacity onPress={shareApp} style={styles.infoItem}>
+                  <DynamicIcon
+                    iconName={'share-alt'}
+                    iconType={'FontAwesome'}
+                    iconSize={24}
+                  />
+                  <Text style={styles.infoTitle}>Share This App</Text>
+                  <View
+                    style={{
+                      flex: 1,
+                      alignItems: 'flex-end',
+                    }}>
+                    <DynamicIcon iconName={'angle-right'} iconSize={24} />
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.infoItem}
+                  onPress={() => navigation.navigate('aboutAppScreen')}>
+                  <DynamicIcon
+                    iconName={'mobile-screen'}
+                    iconType={'FontAwesome6'}
+                    iconSize={24}
+                  />
+                  <Text style={styles.infoTitle}>About App</Text>
+                  <View
+                    style={{
+                      flex: 1,
+                      alignItems: 'flex-end',
+                    }}>
+                    <DynamicIcon iconName={'angle-right'} iconSize={24} />
+                  </View>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.versionContainer}>
                 <DynamicIcon
-                  iconName={'share-alt'}
-                  iconType={'FontAwesome'}
-                  iconSize={24}
+                  iconName={'info-circle'}
+                  iconType={'FontAwesome5'}
+                  iconSize={18}
+                  iconColor={blFontColor.BLLigntGray}
                 />
-                <Text style={styles.infoTitle}>Share This App</Text>
-                <View
-                  style={{
-                    flex: 1,
-                    alignItems: 'flex-end',
-                  }}>
-                  <DynamicIcon iconName={'angle-right'} iconSize={24} />
-                </View>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.Info}>
-              <TouchableOpacity
-                style={styles.infoItem}
-                onPress={() => handleSignout()}>
-                <DynamicIcon
-                  iconName={'logout'}
-                  iconType={'AntDesign'}
-                  iconSize={24}
-                />
-                <Text style={styles.infoTitle}>Logout</Text>
-                <View
-                  style={{
-                    flex: 1,
-                    alignItems: 'flex-end',
-                  }}></View>
-              </TouchableOpacity>
+                <Text style={styles.versionText}>
+                  Version {packageJson.version}
+                </Text>
+              </View>
+              <View style={styles.Info}>
+                <TouchableOpacity
+                  style={styles.infoItem}
+                  onPress={() => handleSignout()}>
+                  <DynamicIcon
+                    iconName={'logout'}
+                    iconType={'AntDesign'}
+                    iconSize={24}
+                  />
+                  <Text style={styles.infoTitle}>Logout</Text>
+                  <View
+                    style={{
+                      flex: 1,
+                      alignItems: 'flex-end',
+                    }}
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -302,6 +329,17 @@ const styles = StyleSheet.create({
     fontWeight: '800',
   },
   iconArrow: {},
+  versionContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 16,
+    gap: 8,
+  },
+  versionText: {
+    fontSize: blFontSize.bodyRegular,
+    color: blFontColor.BLLigntGray,
+  },
   profileEnd: {
     backgroundColor: blBgColors.defaultBackground,
   },

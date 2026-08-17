@@ -2,5 +2,19 @@
   "name": "BLPfs",
   "displayName": "BLPfs",
   "apiBaseURL": "https://pfs.banglalink.net/",
-  "apiBaseURLDev": "https://pfsdev.banglalink.net/"
+  "apiBaseURLDev": "https://pfsdev.banglalink.net/",
+  "ios": {
+    "bundleId": "net.banglalink.pfs",
+    "appStoreId": "6738879848"
+  },
+  "update": {
+    "apiEndpoint": "pfs/api/config/app-version",
+    "checkOnStartup": true,
+    "checkIntervalHours": 24
+  },
+  "websocket": {
+    "parkingEndpoint": "ws/parking-status",
+    "cafeteriaEndpoint": "ws/cafeteria-status",
+    "fallbackIntervalMs": 15000
+  }
 }

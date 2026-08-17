@@ -8,8 +8,7 @@ import {
   TouchableOpacity,
   Platform,
 } from 'react-native';
-import React, {useEffect, useState, useCallback} from 'react';
-// import {TouchableOpacity} from 'react-native-gesture-handler';
+import React, {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 import {useAuthState} from '../../Navigation/AuthContext';
@@ -20,111 +19,30 @@ import DynamicIcon from '../../Components/DynamicIcon';
 import HomeCarousel from './HomeComponent/HomeCarousel';
 import {setProfileHeaderShow} from '../../Services/UserProfileServices/UserProfileSlice';
 import CustomHeaderComponent from '../../Components/CustomHeaderComponent';
-import {FetchParkingData} from '../../Services/ParkingServices/SecurityParkingAccessSlice';
-import {
-  fetchCafeSlideData,
-  loadSliderData,
-} from '../../Services/CommonServices/HomeScreenSliderSlice';
-import {useFocusEffect} from '@react-navigation/native';
-import Loader from '../../Components/Loader';
+import {useLiveData} from '../../hooks/useLiveData';
 import {ActivityIndicator} from 'react-native-paper';
 import LinearGradient from 'react-native-linear-gradient';
 
 const MainDashboard = () => {
   const authState = useAuthState();
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const [sliderDataLoad, setSliderDataLoad] = useState(false);
 
-  const {employeeData, isProfileHeaderShow} = useSelector(
-    state => state.UserProfileLoad,
-  );
+  const {employeeData} = useSelector(state => state.UserProfileLoad);
+  const {homeSliderData} = useSelector(state => state.HomePageSliderData);
 
-  const {isLoading, parkingData} = useSelector(
-    state => state.securityParkingAccess,
-  );
-  const {cafeData} = useSelector(state => state.CafeteriaSliderData);
-  const {dynamicMenu, setDynamicMenu} = useState(authState.DynamicMenu);
-
-  let processedCafeteriaData = [];
-  if (cafeData !== null) {
-    processedCafeteriaData = [
-      {
-        id: 3,
-        title: 'Cafeteria Lunch Status',
-        sliderType: 'cafeteria',
-        data: [
-          {
-            daysType: 'Today',
-            status: cafeData.TodaysStatus,
-          },
-          {
-            daysType: 'Tomorrow',
-            status: cafeData.NextDaysStatus,
-          },
-        ],
-      },
-    ];
-  }
-
-  let sliderId = 0;
-  const processedParkingData = parkingData.map(parkingLocation => {
-    sliderId++;
-    const {ParkingLocationId, ParkingLocation, ParkingSpaceInfoLists} =
-      parkingLocation;
-
-    const uniqueParkingSpaces = parkingLocation.ParkingSpaceInfoLists.reduce(
-      (acc, spaceInfo) => {
-        const existingIndex = acc.findIndex(
-          space => space.VehicleType === spaceInfo.VehicleType,
-        );
-        if (existingIndex !== -1) {
-          acc[existingIndex].TotalParkingSpace += spaceInfo.TotalParkingSpace;
-          acc[existingIndex].FreeParkingSpace += spaceInfo.FreeParkingSpace;
-          acc[existingIndex].OcupiedParkingSpace +=
-            spaceInfo.OcupiedParkingSpace;
-        } else {
-          acc.push(spaceInfo);
-        }
-        return acc;
-      },
-      [],
-    );
-
-    return {
-      id: sliderId,
-      sliderType: 'parking',
-      title: ParkingLocation,
-      icon: '',
-      color: '#000',
-      data: uniqueParkingSpaces,
-    };
-  });
-
-  const dispatch = useDispatch();
+  useLiveData();
 
   useEffect(() => {
     dispatch(setProfileHeaderShow(true));
-
-    dispatch(fetchCafeSlideData())
-      .then(() => dispatch(FetchParkingData()))
-      .then(parkingData => {
-        if (processedParkingData && processedCafeteriaData && parkingData) {
-          !isLoading &&
-            (setSliderDataLoad(true),
-            dispatch(
-              loadSliderData({
-                processedParkingData,
-                processedCafeteriaData,
-              }),
-            ));
-        } else {
-          console.log('Processed data not yet available for loading slider.');
-        }
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
   }, []);
+
+  useEffect(() => {
+    if (homeSliderData?.length > 0) {
+      setSliderDataLoad(true);
+    }
+  }, [homeSliderData]);
 
   const cardItem = (RootTitle, RootIcon, RootUrl, RootIconType) => {
     if (!RootUrl || !RootTitle.trim()) {

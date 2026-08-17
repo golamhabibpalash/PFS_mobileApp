@@ -1,5 +1,5 @@
-import React, {useEffect, useRef} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import React from 'react';
+import {View, Text, StyleSheet} from 'react-native';
 import Swiper from 'react-native-swiper';
 import {
   blBgColors,
@@ -7,112 +7,17 @@ import {
   blFontSize,
 } from '../../../App/Accessibilities';
 import LinearGradient from 'react-native-linear-gradient';
-import {useDispatch, useSelector} from 'react-redux';
-import {FetchParkingData} from '../../../Services/ParkingServices/SecurityParkingAccessSlice';
+import {useSelector} from 'react-redux';
 import DynamicIcon from '../../../Components/DynamicIcon';
-import {
-  fetchCafeSlideData,
-  loadSliderData,
-} from '../../../Services/CommonServices/HomeScreenSliderSlice';
-import Loader from '../../../Components/Loader';
 
 const colors = [blBgColors.banglalink, blBgColors.toffee];
 
 const HomeCarousel = () => {
-  const swiperRef = useRef(null);
-  const dispatch = useDispatch();
-  const {isLoading, parkingData} = useSelector(
-    state => state.securityParkingAccess,
-  );
-  const {cafeData} = useSelector(state => state.CafeteriaSliderData);
   const {homeSliderData} = useSelector(state => state.HomePageSliderData);
-
-  let processedCafeteriaData = [];
-  if (cafeData !== null) {
-    processedCafeteriaData = [
-      {
-        id: 3,
-        title: 'Cafeteria Lunch Status',
-        sliderType: 'cafeteria',
-        data: [
-          {
-            daysType: 'Today',
-            status: cafeData.TodaysStatus,
-          },
-          {
-            daysType: 'Next Day (' + cafeData.NextWorkingData + ')',
-            status: cafeData.NextDaysStatus,
-          },
-        ],
-      },
-    ];
-  }
-
-  let sliderId = 0;
-  const processedParkingData = parkingData.map(parkingLocation => {
-    sliderId++;
-    const {ParkingLocationId, ParkingLocation, ParkingSpaceInfoLists} =
-      parkingLocation;
-
-    const uniqueParkingSpaces = parkingLocation.ParkingSpaceInfoLists.reduce(
-      (acc, spaceInfo) => {
-        const existingIndex = acc.findIndex(
-          space => space.VehicleType === spaceInfo.VehicleType,
-        );
-        if (existingIndex !== -1) {
-          acc[existingIndex].TotalParkingSpace += spaceInfo.TotalParkingSpace;
-          acc[existingIndex].FreeParkingSpace += spaceInfo.FreeParkingSpace;
-          acc[existingIndex].OcupiedParkingSpace +=
-            spaceInfo.OcupiedParkingSpace;
-        } else {
-          acc.push(spaceInfo);
-        }
-        return acc;
-      },
-      [],
-    );
-
-    return {
-      id: sliderId,
-      sliderType: 'parking',
-      title: ParkingLocation,
-      icon: '',
-      color: '#000',
-      data: uniqueParkingSpaces,
-    };
-  });
-  const fetchData = () => {
-    dispatch(FetchParkingData());
-    dispatch(fetchCafeSlideData());
-    dispatch(loadSliderData({processedParkingData, processedCafeteriaData}));
-  };
-
-  const goToNextSlide = () => {
-    if (swiperRef.current) {
-      swiperRef.current.scrollBy(1);
-    }
-    fetchData();
-  };
-  const goToPrevSlide = () => {
-    if (swiperRef.current) {
-      swiperRef.current.scrollBy(-1);
-    }
-    fetchData();
-  };
-
-  const handleIndexChange = () => {
-    fetchData();
-  };
-  useEffect(() => {
-    // dispatch(FetchParkingData());
-    // dispatch(fetchCafeSlideData());
-    dispatch(loadSliderData({processedParkingData, processedCafeteriaData}));
-  }, []);
 
   return (
     <View style={styles.container}>
       <Swiper
-        ref={swiperRef}
         style={styles.wrapper}
         showsButtons={true}
         loop={false}
@@ -122,30 +27,25 @@ const HomeCarousel = () => {
         activeDotColor={blFontColor.BLDefaultColour}
         pagingEnabled={true}
         automaticallyAdjustContentInsets={true}
-        onIndexChanged={handleIndexChange}
         prevButton={
-          <TouchableOpacity
-            style={styles.buttonIconWrapper}
-            onPress={goToPrevSlide}>
+          <View style={styles.buttonIconWrapper}>
             <DynamicIcon
               iconName={'leftcircle'}
               iconType={'AntDesign'}
               iconSize={24}
               iconColor={'#fff'}
             />
-          </TouchableOpacity>
+          </View>
         }
         nextButton={
-          <TouchableOpacity
-            style={styles.buttonIconWrapper}
-            onPress={goToNextSlide}>
+          <View style={styles.buttonIconWrapper}>
             <DynamicIcon
               iconName={'rightcircle'}
               iconType={'AntDesign'}
               iconSize={24}
               iconColor={'#000'}
             />
-          </TouchableOpacity>
+          </View>
         }>
         {homeSliderData &&
           homeSliderData.map(item => (
