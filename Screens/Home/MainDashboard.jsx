@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   Platform,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 import {useAuthState} from '../../Navigation/AuthContext';
@@ -27,22 +27,32 @@ const MainDashboard = () => {
   const authState = useAuthState();
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const [sliderDataLoad, setSliderDataLoad] = useState(false);
-
   const {employeeData} = useSelector(state => state.UserProfileLoad);
-  const {homeSliderData} = useSelector(state => state.HomePageSliderData);
 
-  useLiveData();
+  const {hasData, isLoading, isError, retry} = useLiveData();
 
   useEffect(() => {
     dispatch(setProfileHeaderShow(true));
   }, []);
 
-  useEffect(() => {
-    if (homeSliderData?.length > 0) {
-      setSliderDataLoad(true);
+  const renderCarousel = () => {
+    if (hasData) {
+      return <HomeCarousel />;
     }
-  }, [homeSliderData]);
+    if (isLoading) {
+      return <ActivityIndicator />;
+    }
+    // Neither loading nor holding data: say so instead of spinning forever.
+    return (
+      <TouchableOpacity style={styles.carouselFallback} onPress={retry}>
+        <Text style={styles.carouselFallbackText}>
+          {isError
+            ? 'Could not load live status. Tap to retry.'
+            : 'No live status available right now. Tap to refresh.'}
+        </Text>
+      </TouchableOpacity>
+    );
+  };
 
   const cardItem = (RootTitle, RootIcon, RootUrl, RootIconType) => {
     if (!RootUrl || !RootTitle.trim()) {
@@ -110,23 +120,22 @@ const MainDashboard = () => {
           position:'absolute',
           top:0,left:0,
         }}
-      
+
       /> */}
 
-<LinearGradient
+      <LinearGradient
         colors={[blBgColors.primaryGradient, blBgColors.secondaryGradient]}
         start={{x: 0, y: 1}}
         end={{x: 1, y: 0}}
         style={{
-          backgroundColor:'#000',
-          height:47,
-          width:'100%',
-          position:'absolute',
-          top:0,left:0,
+          backgroundColor: '#000',
+          height: 47,
+          width: '100%',
+          position: 'absolute',
+          top: 0,
+          left: 0,
         }}
-        >
-        
-      </LinearGradient>
+      />
       <ScrollView>
         <View>
           <CustomHeaderComponent
@@ -134,10 +143,7 @@ const MainDashboard = () => {
             employeeName={employeeData?.EmployeeName}
           />
         </View>
-        <View style={styles.carouselWrapper}>
-          {sliderDataLoad && <HomeCarousel />}
-          {!sliderDataLoad && <ActivityIndicator />}
-        </View>
+        <View style={styles.carouselWrapper}>{renderCarousel()}</View>
         <View style={styles.quckLinkWrapper}>
           <Text style={styles.quickLinkText}>Quick Links</Text>
           <View style={styles.flatListContainer}>
@@ -153,11 +159,17 @@ const MainDashboard = () => {
                       ? 'Cafeteria Registration'
                       : childItem.ChildTitle,
 
-                    childItem.ChildTitle == 'Registration' && Platform.OS == "ios" ? "edit" : childItem.ChildIcon,
+                    childItem.ChildTitle == 'Registration' &&
+                      Platform.OS == 'ios'
+                      ? 'edit'
+                      : childItem.ChildIcon,
 
                     childItem.ChildUrl,
-                    
-                    childItem.ChildTitle == 'Registration' && Platform.OS == "ios" ? "FontAwesome5" : childItem.ChildIconType,
+
+                    childItem.ChildTitle == 'Registration' &&
+                      Platform.OS == 'ios'
+                      ? 'FontAwesome5'
+                      : childItem.ChildIconType,
                   )}
                 </View>
               )),
@@ -177,6 +189,17 @@ const styles = StyleSheet.create({
   carouselWrapper: {
     height: 250,
     justifyContent: 'center',
+  },
+  carouselFallback: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 30,
+  },
+  carouselFallbackText: {
+    textAlign: 'center',
+    fontSize: blFontSize.body,
+    color: '#666',
   },
   quckLinkWrapper: {
     padding: 10,

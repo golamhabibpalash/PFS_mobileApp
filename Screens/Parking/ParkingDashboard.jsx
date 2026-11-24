@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -6,47 +6,43 @@ import {
   StyleSheet,
   ScrollView,
 } from 'react-native';
+import {useSelector} from 'react-redux';
 import ParkingSpaceInfo from './ParkingSpaceInfo';
-import axios from 'axios';
-import appConfig from '../../app.json';
 import Loader from '../../Components/Loader';
 import {useAuthState} from '../../Navigation/AuthContext';
 import ParkingAccess from './Component/ParkingAccess';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {useLiveData} from '../../hooks/useLiveData';
 
-const baseUrl = appConfig.apiBaseURL;
+// Stable reference: returning a fresh [] from the selector would re-render on
+// every store update.
+const NO_PARKING_DATA = [];
 
 const ParkingDashboard = () => {
-  const [loading, setLoading] = useState(false);
   const [selectedTab, setSelectedTab] = useState(`Tiger's Den`);
-  const [parkingSpaceInfos, setParkingSpaceInfos] = useState([]);
   const authState = useAuthState();
   const userId = authState.UserId;
 
-  useEffect(() => {
-    fetchParkingSpaceInfos();
-  }, []);
+  // Same live feed the home slider uses: the WebSocket pushes changes, and a
+  // timed poll covers the case where the socket is unavailable.
+  const {retry} = useLiveData();
+  const parkingSpaceInfos = useSelector(
+    state => state.securityParkingAccess?.parkingData ?? NO_PARKING_DATA,
+  );
+  const isLoading = useSelector(
+    state => !!state.securityParkingAccess?.isLoading,
+  );
 
-  const fetchParkingSpaceInfos = async () => {
-    try {
-      setLoading(true);
-      const response = await axios.get(
-        `${baseUrl}pfs/api/ParkingApi/DailyParkingGraph`,
-      );
-      setParkingSpaceInfos(response.data);
-    } catch (error) {
-      console.error('Error fetching parking space infos:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  // Only block on the very first load. Showing the overlay on every background
+  // refresh would flash a spinner over the page every poll interval.
+  const showLoader = isLoading && parkingSpaceInfos.length === 0;
 
   const handleTabPress = tabName => {
     setSelectedTab(tabName);
   };
 
   const handleReload = () => {
-    fetchParkingSpaceInfos();
+    retry();
   };
 
   return (
@@ -138,7 +134,7 @@ const ParkingDashboard = () => {
       <View style={styles.spaceContainer}>
         <ParkingSpaceInfo parkingSpaceInfos={parkingSpaceInfos} />
       </View>
-      {loading && <Loader loading={loading} />}
+      {showLoader && <Loader loading={showLoader} />}
     </ScrollView>
   );
 };

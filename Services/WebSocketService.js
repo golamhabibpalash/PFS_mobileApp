@@ -21,6 +21,11 @@ class WebSocketManager {
     this.config = config;
     this.isDestroyed = false;
     this._startAppStateListener();
+    // Poll from the moment we connect rather than only after the reconnect
+    // budget is spent. Ten backoff attempts take just over three minutes, and
+    // until they finished nothing refreshed at all. _onOpen stops the polling
+    // if the socket does come up, so a healthy socket still wins.
+    this._startFallbackPolling({immediate: false});
     this._tryWebSocket();
   }
 
@@ -77,13 +82,15 @@ class WebSocketManager {
     }
   }
 
-  _startFallbackPolling() {
+  _startFallbackPolling({immediate = true} = {}) {
     if (this.isFallbackActive || !this.config?.fallbackPollingFn) {
       return;
     }
     this.isFallbackActive = true;
     this.config.onStatusChange?.('fallback');
-    this.config.fallbackPollingFn();
+    if (immediate) {
+      this.config.fallbackPollingFn();
+    }
     this.pollTimer = setInterval(
       this.config.fallbackPollingFn,
       this.config.fallbackIntervalMs || 15000,
@@ -107,6 +114,13 @@ class WebSocketManager {
       nextState => {
         if (nextState === 'active') {
           this.isBackground = false;
+          // Backgrounding tears the socket down through disconnect(), which
+          // sets isDestroyed. Clear it here or _tryWebSocket bails on resume
+          // and the connection never comes back — it degrades to polling for
+          // the rest of the process.
+          this.isDestroyed = false;
+          this.attempts = 0;
+          this._startFallbackPolling();
           this._tryWebSocket();
         } else if (nextState === 'background') {
           this.isBackground = true;

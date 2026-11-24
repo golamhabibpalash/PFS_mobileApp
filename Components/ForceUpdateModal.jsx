@@ -18,6 +18,7 @@ const ForceUpdateModal = ({
   latestVersion,
   currentVersion,
   releaseNotes,
+  updateUrl,
   onSkip,
 }) => {
   React.useEffect(() => {
@@ -71,7 +72,7 @@ const ForceUpdateModal = ({
 
           <TouchableOpacity
             style={styles.updateButtonWrapper}
-            onPress={openAppStore}
+            onPress={() => openAppStore(updateUrl)}
             activeOpacity={0.8}>
             <LinearGradient
               style={styles.updateButton}

@@ -1,30 +1,42 @@
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useRef,
-  useCallback,
-} from 'react';
-import {View} from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, {useEffect, useRef, useCallback} from 'react';
+import {View, PanResponder, Keyboard} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useAuthState, useAuthDispatch} from '../Navigation/AuthContext';
-import Toast from 'react-native-toast-message';
-import sessionManager from './SessionManager';
-
-const ExtendSessionContext = createContext();
+import sessionManager, {clearSessionStorage} from './SessionManager';
 
 export const SessionProvider = ({children}) => {
   const extendSession = useCallback(() => {
     sessionManager.extendSession();
   }, []);
 
+  // Capture-phase handlers that never claim the responder, so every touch and
+  // drag (including scrolls, which never bubble a touch end) counts as
+  // activity without interfering with the gesture itself.
+  const panResponder = useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponderCapture: () => {
+        sessionManager.extendSession();
+        return false;
+      },
+      onMoveShouldSetPanResponderCapture: () => {
+        sessionManager.extendSession();
+        return false;
+      },
+    }),
+  ).current;
+
+  useEffect(() => {
+    const subscriptions = [
+      Keyboard.addListener('keyboardDidShow', extendSession),
+      Keyboard.addListener('keyboardDidHide', extendSession),
+    ];
+    return () => subscriptions.forEach(sub => sub.remove());
+  }, [extendSession]);
+
   return (
-    <ExtendSessionContext.Provider value={extendSession}>
-      <View style={{flex: 1}} onTouchStart={extendSession}>
-        {children}
-      </View>
-    </ExtendSessionContext.Provider>
+    <View style={{flex: 1}} {...panResponder.panHandlers}>
+      {children}
+    </View>
   );
 };
 
@@ -37,20 +49,14 @@ export const SessionWatcher = () => {
   useEffect(() => {
     const handleExpireOrUnauthorized = async () => {
       try {
-        await AsyncStorage.multiRemove([
-          'loggedIn',
-          'loggedInData',
-          'sessionStartTime',
-        ]);
+        await clearSessionStorage();
       } catch (e) {
         console.error('Session clear error:', e);
       }
       authDispatch({type: 'LOGOUT'});
-      Toast.show({
-        type: 'error',
-        text1: 'Session Expired',
-        text2: 'Your session has expired. Please login again.',
-      });
+      // Deliberately silent. Being returned to the login screen already tells
+      // the user what happened; an error toast on top of it reads like a fault
+      // in the app rather than a normal timeout.
       navigation.reset({
         index: 0,
         routes: [{name: 'Login'}],
@@ -81,5 +87,3 @@ export const SessionWatcher = () => {
 
   return null;
 };
-
-export const useExtendSession = () => useContext(ExtendSessionContext);

@@ -29,7 +29,7 @@ import BusinessCardInsertUpdate from '../Screens/BusinessCard/BusinessCardInsert
 import {StyleSheet, View} from 'react-native';
 import {blBgColors, blFontColor} from '../App/Accessibilities';
 import ModuleDashboard from '../Screens/ModuleGroup/ModuleDashboard';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import ParkingTable from '../Screens/Parking/Component/ParkingTable';
 import SSOLogin from '../Screens/SSO/SSOLogin';
 import Search from '../Screens/Home/HomeComponent/Search';
@@ -44,10 +44,13 @@ import WelcomeScreen from '../Screens/welcome/Welcome';
 import FAQScreen from '../Screens/welcome/FAQ';
 import OnboardingScreen from '../Screens/welcome/Onboard';
 import {SessionWatcher} from '../Services/SessionProvider';
-import {
-  SESSION_TIMEOUT_MS,
-  SESSION_START_TIME_KEY,
-} from '../Services/SessionManager';
+import sessionManager, {clearSessionStorage} from '../Services/SessionManager';
+import AppConfigScreen from '../Screens/Admin/AppConfigScreen';
+
+const navigationTheme = {
+  ...DefaultTheme,
+  colors: {...DefaultTheme.colors, background: blBgColors.defaultBackground},
+};
 
 const StackNav = () => {
   const Stack = createNativeStackNavigator();
@@ -57,20 +60,11 @@ const StackNav = () => {
   useEffect(() => {
     const checkLoginStatus = async () => {
       try {
+        const isExpired = await sessionManager.bootstrapSession();
         const loggedIn = await AsyncStorage.getItem('loggedIn');
         if (loggedIn) {
-          const sessionStartTime = await AsyncStorage.getItem(
-            SESSION_START_TIME_KEY,
-          );
-          const isExpired =
-            !sessionStartTime ||
-            Date.now() - Number(sessionStartTime) >= SESSION_TIMEOUT_MS;
           if (isExpired) {
-            await AsyncStorage.multiRemove([
-              'loggedIn',
-              'loggedInData',
-              SESSION_START_TIME_KEY,
-            ]);
+            await clearSessionStorage();
             return;
           }
           const loggedInData = await AsyncStorage.getItem('loggedInData');
@@ -89,12 +83,15 @@ const StackNav = () => {
   }, []);
 
   return (
-    <NavigationContainer independent={true}>
+    <NavigationContainer independent={true} theme={navigationTheme}>
       <Stack.Navigator
         screenOptions={({route}) => ({
           header: () => (
             <CustomStackHeaderComponent title={route.params?.title} />
           ),
+          // Without this the native stack paints its own opaque white behind
+          // each screen, which flashes through during the iOS pop animation.
+          contentStyle: {backgroundColor: blBgColors.defaultBackground},
           // title: route.params?.title || 'Default Title',
           // headerTintColor: blFontColor.BLNavigationMenuTitle,
           // headerStyle: style.screenHeader,
@@ -149,7 +146,13 @@ const StackNav = () => {
         <Stack.Screen
           name="Home"
           component={HomeScreen}
-          options={{headerShown: false}}
+          options={{
+            headerShown: false,
+            // iOS has no hardware back button, so the edge-swipe is the only
+            // way out of Home — and there is nothing valid to go back TO.
+            // Android's exit prompt lives on hardwareBackPress in HomeScreen.
+            gestureEnabled: false,
+          }}
         />
         <Stack.Screen name="Seacrh" component={Search} />
         <Stack.Screen
@@ -271,6 +274,11 @@ const StackNav = () => {
         <Stack.Screen
           name="termsConditions"
           component={TermsAndConditionsScreen}
+        />
+        <Stack.Screen
+          name="AppConfigScreen"
+          component={AppConfigScreen}
+          options={{title: 'App Settings'}}
         />
       </Stack.Navigator>
       <SessionWatcher />

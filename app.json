@@ -7,6 +7,9 @@
     "bundleId": "net.banglalink.pfs",
     "appStoreId": "6738879848"
   },
+  "android": {
+    "packageName": "com.blpfs"
+  },
   "update": {
     "apiEndpoint": "pfs/api/config/app-version",
     "checkOnStartup": true,

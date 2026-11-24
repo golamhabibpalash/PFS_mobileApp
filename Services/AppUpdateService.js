@@ -1,4 +1,4 @@
-import {Linking} from 'react-native';
+import {Linking, Platform} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import appConfig from '../app.json';
 import packageJson from '../package.json';
@@ -22,24 +22,36 @@ const compareVersions = (v1, v2) => {
   return 0;
 };
 
-const getAppStoreUrl = () => {
-  const {appStoreId, bundleId} = appConfig.ios;
+// Deep link that opens the native store app directly.
+const getStoreUrl = () => {
+  if (Platform.OS === 'android') {
+    const packageName = appConfig.android?.packageName;
+    return packageName ? `market://details?id=${packageName}` : null;
+  }
+  const {appStoreId, bundleId} = appConfig.ios || {};
   if (appStoreId) {
     return `itms-apps://apps.apple.com/app/id${appStoreId}`;
   }
-  return `https://apps.apple.com/app/${bundleId}`;
+  return bundleId ? `https://apps.apple.com/app/${bundleId}` : null;
+};
+
+// Browser fallback for when the store app is absent (bare emulators, devices
+// without Play Services) or the deep link is not handled.
+const getStoreWebUrl = () => {
+  if (Platform.OS === 'android') {
+    const packageName = appConfig.android?.packageName;
+    return packageName
+      ? `https://play.google.com/store/apps/details?id=${packageName}`
+      : null;
+  }
+  const {appStoreId, bundleId} = appConfig.ios || {};
+  if (appStoreId) {
+    return `https://apps.apple.com/app/id${appStoreId}`;
+  }
+  return bundleId ? `https://apps.apple.com/app/${bundleId}` : null;
 };
 
 const checkBackendApi = async () => {
-  // MOCK for testing — remove when backend endpoint is ready
-  return {
-    latestVersion: '2.7.0',
-    minVersion: '2.7.0',
-    isRequired: false,
-    updateUrl: getAppStoreUrl(),
-    releaseNotes: '• Live auto-refresh for parking & cafeteria data\n• Performance improvements\n• Bug fixes',
-  };
-
   const endpoint = appConfig.update.apiEndpoint;
   if (!endpoint) {
     return null;
@@ -59,13 +71,17 @@ const checkBackendApi = async () => {
     latestVersion: data.latestVersion || data.minVersion,
     minVersion: data.minVersion || data.latestVersion,
     isRequired: data.isRequired !== false,
-    updateUrl: data.updateUrl || getAppStoreUrl(),
+    updateUrl: data.updateUrl || getStoreUrl(),
     releaseNotes: data.releaseNotes || '',
   };
 };
 
 const checkAppStore = async () => {
-  const {bundleId} = appConfig.ios;
+  if (Platform.OS !== 'ios') {
+    return null;
+  }
+
+  const {bundleId} = appConfig.ios || {};
   if (!bundleId) {
     return null;
   }
@@ -138,11 +154,29 @@ export const checkForUpdate = async () => {
   }
 };
 
-export const openAppStore = () => {
-  const url = getAppStoreUrl();
-  Linking.openURL(url).catch(() => {
-    Linking.openURL(url.replace('itms-apps://', 'https://'));
-  });
+export const openAppStore = async updateUrl => {
+  const candidates = [updateUrl, getStoreUrl(), getStoreWebUrl()].filter(
+    (url, index, all) => url && all.indexOf(url) === index,
+  );
+
+  for (const url of candidates) {
+    try {
+      // openURL resolves for an unhandled custom scheme — the OS accepted the
+      // request, it just had nowhere to send it — so it cannot distinguish
+      // "opened" from "nothing handles this". On the Simulator, which has no
+      // App Store app, that surfaced as Safari's "the address is invalid".
+      // Asking first lets us fall through to the https URL instead.
+      if (!(await Linking.canOpenURL(url))) {
+        console.log('[UpdateCheck] No handler for', url);
+        continue;
+      }
+      await Linking.openURL(url);
+      return true;
+    } catch (e) {
+      console.log('[UpdateCheck] Could not open', url, e?.message);
+    }
+  }
+  return false;
 };
 
 export const shouldCheckForUpdate = async () => {

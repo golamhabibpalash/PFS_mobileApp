@@ -21,6 +21,7 @@ import {useAuthDispatch} from '../../Navigation/AuthContext';
 import axios from 'axios';
 import appConfig from '../../app.json';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {LAST_ACTIVITY_KEY} from '../../Services/SessionManager';
 
 const baseUrl = appConfig.apiBaseURL;
 
@@ -234,10 +235,10 @@ const OtpVerification = function (props) {
             JSON.stringify(res.data),
           );
           await AsyncStorage.setItem(
-            'sessionStartTime',
+            LAST_ACTIVITY_KEY,
             String(Date.now()),
           );
-          navigation.navigate('Home');
+          navigation.reset({index: 0, routes: [{name: 'Home'}]});
         } else {
           throw new Error(res.data.Message || 'Login failed');
         }

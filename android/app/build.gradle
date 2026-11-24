@@ -82,8 +82,8 @@ android {
         applicationId "com.blpfs"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 44
-        versionName "0.5.260715"
+        versionCode 48
+        versionName "2.7.260823"
         missingDimensionStrategy 'react-native-camera', 'general'        
     }
     signingConfigs {

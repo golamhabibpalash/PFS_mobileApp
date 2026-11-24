@@ -17,17 +17,21 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.6.0</string>
+	<string>2.7.260823</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>42</string>
+	<string>45</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
-	<false/>
+	<false />
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.business</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true />
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>itms-apps</string>
+	</array>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>

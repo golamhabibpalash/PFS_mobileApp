@@ -18,12 +18,16 @@ import ImageComponent from '../../Components/ImageComponent';
 import {blBgColors, blFontColor, blFontSize} from '../../App/Accessibilities';
 import DynamicIcon from '../../Components/DynamicIcon';
 import {useNavigation} from '@react-navigation/native';
-import {useAuthDispatch} from '../../Navigation/AuthContext';
+import {
+  useAuthDispatch,
+  useAuthState,
+  hasAdminAccess,
+} from '../../Navigation/AuthContext';
 import packageJson from '../../package.json';
 import HomeHeaderView from '../Home/HomeComponent/HomeHeaderView';
 import axios from 'axios';
 import appConfig from '../../app.json';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {clearSessionStorage} from '../../Services/SessionManager';
 
 const baseUrl = appConfig.apiBaseURL;
 const adfsLogoutUrl = 'appSSO/ADAuthSignOut';
@@ -80,9 +84,12 @@ const UserProfile = () => {
   const navigation = useNavigation();
   const authDispatch = useAuthDispatch();
   const dispatch = useDispatch();
+  const authState = useAuthState();
   const genSettings = [{}];
 
   const {employeeData} = useSelector(state => state.UserProfileLoad);
+
+  const isAdminUser = hasAdminAccess(authState);
 
   const employeelInfo = [
     {
@@ -112,11 +119,7 @@ const UserProfile = () => {
   ];
   const handleSignout = async () => {
     try {
-      await AsyncStorage.multiRemove([
-        'loggedIn',
-        'loggedInData',
-        'sessionStartTime',
-      ]);
+      await clearSessionStorage();
       await axios.get(`${baseUrl}${adfsLogoutUrl}`);
     } catch (error) {
       console.log(error);
@@ -234,6 +237,25 @@ const UserProfile = () => {
                     <DynamicIcon iconName={'angle-right'} iconSize={24} />
                   </View>
                 </TouchableOpacity>
+                {isAdminUser && (
+                  <TouchableOpacity
+                    style={styles.infoItem}
+                    onPress={() => navigation.navigate('AppConfigScreen')}>
+                    <DynamicIcon
+                      iconName={'cog'}
+                      iconType={'FontAwesome'}
+                      iconSize={24}
+                    />
+                    <Text style={styles.infoTitle}>App Settings</Text>
+                    <View
+                      style={{
+                        flex: 1,
+                        alignItems: 'flex-end',
+                      }}>
+                      <DynamicIcon iconName={'angle-right'} iconSize={24} />
+                    </View>
+                  </TouchableOpacity>
+                )}
               </View>
               <View style={styles.versionContainer}>
                 <DynamicIcon

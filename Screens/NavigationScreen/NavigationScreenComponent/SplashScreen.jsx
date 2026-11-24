@@ -3,9 +3,8 @@ import React, {useEffect} from 'react';
 import {View, ActivityIndicator, StyleSheet} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
-import {
-  SESSION_TIMEOUT_MS,
-  SESSION_START_TIME_KEY,
+import sessionManager, {
+  clearSessionStorage,
 } from '../../../Services/SessionManager';
 
 const SplashScreen = ({nav}) => {
@@ -13,24 +12,15 @@ const SplashScreen = ({nav}) => {
   useEffect(() => {
     const checkLoginStatus = async () => {
       try {
+        const isExpired = await sessionManager.bootstrapSession();
         const loggedIn = await AsyncStorage.getItem('loggedIn');
         if (loggedIn === 'true') {
-          const sessionStartTime = await AsyncStorage.getItem(
-            SESSION_START_TIME_KEY,
-          );
-          const isExpired =
-            !sessionStartTime ||
-            Date.now() - Number(sessionStartTime) >= SESSION_TIMEOUT_MS;
           if (isExpired) {
-            await AsyncStorage.multiRemove([
-              'loggedIn',
-              'loggedInData',
-              SESSION_START_TIME_KEY,
-            ]);
+            await clearSessionStorage();
             navigation.navigate('OnboardingScreen');
             return;
           }
-          navigation.navigate('Home');
+          navigation.reset({index: 0, routes: [{name: 'Home'}]});
         } else {
           navigation.navigate('OnboardingScreen');
         }

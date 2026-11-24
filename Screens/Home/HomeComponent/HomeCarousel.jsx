@@ -12,27 +12,30 @@ import DynamicIcon from '../../../Components/DynamicIcon';
 
 const colors = [blBgColors.banglalink, blBgColors.toffee];
 
+const CAROUSEL_HEIGHT = 250;
+
 const HomeCarousel = () => {
   const {homeSliderData} = useSelector(state => state.HomePageSliderData);
+  const slides = homeSliderData || [];
+  const showsButtons = slides.length > 1;
 
   return (
     <View style={styles.container}>
       <Swiper
-        style={styles.wrapper}
-        showsButtons={true}
+        showsButtons={showsButtons}
         loop={false}
         autoplay={false}
-        showsPagination={true}
+        showsPagination={slides.length > 1}
         dotColor={blFontColor.BLLigntGray}
         activeDotColor={blFontColor.BLDefaultColour}
-        pagingEnabled={true}
-        automaticallyAdjustContentInsets={true}
+        height={CAROUSEL_HEIGHT}
+        removeClippedSubviews={false}
         prevButton={
           <View style={styles.buttonIconWrapper}>
             <DynamicIcon
               iconName={'leftcircle'}
               iconType={'AntDesign'}
-              iconSize={24}
+              iconSize={28}
               iconColor={'#fff'}
             />
           </View>
@@ -42,50 +45,48 @@ const HomeCarousel = () => {
             <DynamicIcon
               iconName={'rightcircle'}
               iconType={'AntDesign'}
-              iconSize={24}
-              iconColor={'#000'}
+              iconSize={28}
+              iconColor={'#fff'}
             />
           </View>
         }>
-        {homeSliderData &&
-          homeSliderData.map(item => (
-            <LinearGradient
-              style={styles.gradientStyle}
-              colors={colors}
-              key={item.id}
-              start={{x: 0, y: 0.9}}
-              end={{x: 1, y: 0.8}}>
-              <View style={styles.slide}>
-                <Text style={styles.title}>
-                  {' '}
-                  {item.title}{' '}
-                  {item.sliderType === 'parking' && 'Parking Status'}
-                </Text>
-                {item.sliderType === 'parking' &&
-                  item.data.map(pItem => (
-                    <View
-                      style={styles.textInfoContainer}
-                      key={pItem.VehicleType}>
-                      <Text style={[styles.textInfoColumn1]}>
-                        {pItem.VehicleType} -
-                      </Text>
-                      <Text style={styles.textInfoColumn2}>
-                        {pItem.OcupiedParkingSpace}/{pItem.TotalParkingSpace}
-                      </Text>
-                    </View>
-                  ))}
-                {item.sliderType === 'cafeteria' &&
-                  item.data.map(pItem => (
-                    <View style={styles.textInfoContainer} key={pItem.daysType}>
-                      <Text style={[styles.textInfoColumn3]}>
-                        {pItem.daysType}
-                      </Text>
-                      <Text style={styles.textInfoColumn4}>{pItem.status}</Text>
-                    </View>
-                  ))}
-              </View>
-            </LinearGradient>
-          ))}
+        {slides.map(item => (
+          <LinearGradient
+            style={styles.gradientStyle}
+            colors={colors}
+            key={item.id}
+            start={{x: 0, y: 0.9}}
+            end={{x: 1, y: 0.8}}>
+            <View style={styles.slide}>
+              <Text style={styles.title}>
+                {' '}
+                {item.title} {item.sliderType === 'parking' && 'Parking Status'}
+              </Text>
+              {item.sliderType === 'parking' &&
+                item.data.map(pItem => (
+                  <View
+                    style={styles.textInfoContainer}
+                    key={pItem.VehicleType}>
+                    <Text style={[styles.textInfoColumn1]}>
+                      {pItem.VehicleType} -
+                    </Text>
+                    <Text style={styles.textInfoColumn2}>
+                      {pItem.OcupiedParkingSpace}/{pItem.TotalParkingSpace}
+                    </Text>
+                  </View>
+                ))}
+              {item.sliderType === 'cafeteria' &&
+                item.data.map(pItem => (
+                  <View style={styles.textInfoContainer} key={pItem.daysType}>
+                    <Text style={[styles.textInfoColumn3]}>
+                      {pItem.daysType}
+                    </Text>
+                    <Text style={styles.textInfoColumn4}>{pItem.status}</Text>
+                  </View>
+                ))}
+            </View>
+          </LinearGradient>
+        ))}
       </Swiper>
     </View>
   );
@@ -97,11 +98,9 @@ const styles = StyleSheet.create({
   },
   buttonIconWrapper: {
     backgroundColor: 'transparent',
-    opacity: 0.3,
-    margin: 5,
-  },
-  wrapper: {
-    resizeMode: 'contain',
+    opacity: 0.75,
+    paddingHorizontal: 12,
+    paddingVertical: 16,
   },
   gradientStyle: {
     flex: 1,

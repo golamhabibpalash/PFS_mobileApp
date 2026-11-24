@@ -17,6 +17,8 @@ import {
   getSkippedVersion,
   skipVersion,
 } from './Services/AppUpdateService';
+import {fetchSessionConfig} from './Services/AppConfigService';
+import sessionManager from './Services/SessionManager';
 
 const App = () => {
   const [updateInfo, setUpdateInfo] = useState(null);
@@ -51,6 +53,17 @@ const App = () => {
     initUpdateCheck();
   }, []);
 
+  useEffect(() => {
+    const applySessionConfig = async () => {
+      try {
+        const minutes = await fetchSessionConfig();
+        sessionManager.setSessionTimeoutMinutes(minutes);
+      } catch (e) {}
+    };
+
+    applySessionConfig();
+  }, []);
+
   const handleSkipVersion = async () => {
     if (updateInfo) {
       await skipVersion(updateInfo.latestVersion);
@@ -77,6 +90,7 @@ const App = () => {
             latestVersion={updateInfo?.latestVersion ?? ''}
             currentVersion={updateInfo?.currentVersion ?? ''}
             releaseNotes={updateInfo?.releaseNotes ?? ''}
+            updateUrl={updateInfo?.updateUrl}
             onSkip={handleSkipVersion}
           />
         </Provider>

@@ -8,6 +8,7 @@ import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {blBgColors} from '../../App/Accessibilities';
+import {LAST_ACTIVITY_KEY} from '../../Services/SessionManager';
 
 const baseUrl = appConfig.apiBaseURL;
 const adfsLoginFormUrl = 'appSSO/ADFSAuth';
@@ -48,10 +49,13 @@ const SSOLogin = () => {
             JSON.stringify(response.data),
           );
           await AsyncStorage.setItem(
-            'sessionStartTime',
+            LAST_ACTIVITY_KEY,
             String(Date.now()),
           );
-          navigation.navigate('Home', {title: 'Home'});
+          navigation.reset({
+            index: 0,
+            routes: [{name: 'Home', params: {title: 'Home'}}],
+          });
         } else {
           Toast.show({
             type: 'error',

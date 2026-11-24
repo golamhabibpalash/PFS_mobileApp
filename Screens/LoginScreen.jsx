@@ -23,7 +23,7 @@ import DynamicIcon from '../Components/DynamicIcon';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import RNOtpVerify from 'react-native-otp-verify';
 import packageJson from '../package.json';
-import {SESSION_TIMEOUT_MS} from '../Services/SessionManager';
+import {LAST_ACTIVITY_KEY} from '../Services/SessionManager';
 
 const {height: screenHeight} = Dimensions.get('window');
 
@@ -45,7 +45,6 @@ const LoginScreen = ({navigation}) => {
         setTapCount(newCount);
 
         if (newCount === 5) {
-          const sessionMinutes = SESSION_TIMEOUT_MS / 60 / 1000;
           const info = `
       App Information:
       ==================
@@ -53,7 +52,7 @@ const LoginScreen = ({navigation}) => {
       React: ${packageJson.dependencies.react}
       React Native: ${packageJson.dependencies['react-native']}
       API URL: ${baseUrl}
-      Session Timeout: ${sessionMinutes} minutes
+      Session Timeout: Configurable (admin-managed)
           `;
           alert(info);
           setTapCount(0);
@@ -95,11 +94,11 @@ const LoginScreen = ({navigation}) => {
             'loggedInData',
             JSON.stringify(response.data),
           );
-          await AsyncStorage.setItem(
-            'sessionStartTime',
-            String(Date.now()),
-          );
-          navigation.navigate('Home', {title: 'Home'});
+          await AsyncStorage.setItem(LAST_ACTIVITY_KEY, String(Date.now()));
+          navigation.reset({
+            index: 0,
+            routes: [{name: 'Home', params: {title: 'Home'}}],
+          });
 
           setUsername('');
           setPassword('');
